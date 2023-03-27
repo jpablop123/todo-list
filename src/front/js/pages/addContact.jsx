@@ -11,7 +11,6 @@ const addContact = () => {
     agenda_slug: "agenda_de_antonio",
     address: "",
   });
-
   const handleInputChange = (event) => {
     setNewContact({
       ...newContact,
