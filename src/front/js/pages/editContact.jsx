@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-const addContact = () => {
+const EditContact = () => {
+  const params = useParams();
   const { store, actions } = useContext(Context);
   const [newContact, setNewContact] = useState({
     full_name: "",
@@ -12,17 +13,16 @@ const addContact = () => {
     address: "",
   });
   const handleInputChange = (event) => {
-    const updateContact = {
+    setNewContact({
       ...newContact,
       [event.target.name]: event.target.value,
-    };
-    setNewContact(updateContact);
+    });
   };
 
   return (
     <div className="row">
       <div className="col-xs-1" align="center">
-        <h1>Agregar contacto</h1>
+        <h1>Editar Contacto</h1>
         <form>
           <label>
             Nombre completo:
@@ -30,7 +30,7 @@ const addContact = () => {
             <input
               type="text"
               name="full_name"
-              value={newContact.full_name}
+              value={store.listaContactos[params.index].full_name}
               onChange={handleInputChange}
             />
           </label>
@@ -41,7 +41,7 @@ const addContact = () => {
             <input
               type="text"
               name="email"
-              value={newContact.email}
+              value={store.listaContactos[params.index].email}
               onChange={handleInputChange}
             />
           </label>
@@ -52,7 +52,7 @@ const addContact = () => {
             <input
               type="text"
               name="phone"
-              value={newContact.phone}
+              value={store.listaContactos[params.index].phone}
               onChange={handleInputChange}
             />
           </label>
@@ -63,7 +63,7 @@ const addContact = () => {
             <input
               type="text"
               name="address"
-              value={newContact.address}
+              value={store.listaContactos[params.index].address}
               onChange={handleInputChange}
             />
           </label>
@@ -77,14 +77,14 @@ const addContact = () => {
             className="btn btn-outline-warning"
             type="button"
             onClick={() => {
-              actions.addContact(newContact);
+              actions.editContact(newContact, params.index);
             }}
           >
-            Agregar Contacto a la Agenda
+            Guardar cambios
           </button>
         </form>
       </div>
     </div>
   );
 };
-export default addContact;
+export default EditContact;
