@@ -5,19 +5,18 @@ import { Link, useParams } from "react-router-dom";
 const EditContact = () => {
   const params = useParams();
   const { store, actions } = useContext(Context);
-  const [newContact, setNewContact] = useState({
-    full_name: "",
-    email: "",
-    phone: "",
-    agenda_slug: "agenda_de_antonio",
-    address: "",
-  });
-  const handleInputChange = (event) => {
-    setNewContact({
-      ...newContact,
-      [event.target.name]: event.target.value,
-    });
-  };
+  const [nombre, setNombre] = useState(
+    store.listaContactos[params.index].full_name
+  );
+  const [correo, setCorreo] = useState(
+    store.listaContactos[params.index].email
+  );
+  const [telefono, setTelefono] = useState(
+    store.listaContactos[params.index].phone
+  );
+  const [direccion, setDireccion] = useState(
+    store.listaContactos[params.index].address
+  );
 
   return (
     <div className="row">
@@ -30,8 +29,8 @@ const EditContact = () => {
             <input
               type="text"
               name="full_name"
-              value={store.listaContactos[params.index].full_name}
-              onChange={handleInputChange}
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
             />
           </label>
           <br />
@@ -41,8 +40,8 @@ const EditContact = () => {
             <input
               type="text"
               name="email"
-              value={store.listaContactos[params.index].email}
-              onChange={handleInputChange}
+              value={correo}
+              onChange={(e) => setCorreo(e.target.value)}
             />
           </label>
           <br />
@@ -52,8 +51,8 @@ const EditContact = () => {
             <input
               type="text"
               name="phone"
-              value={store.listaContactos[params.index].phone}
-              onChange={handleInputChange}
+              value={telefono}
+              onChange={(e) => setTelefono(e.target.value)}
             />
           </label>
           <br />
@@ -63,8 +62,8 @@ const EditContact = () => {
             <input
               type="text"
               name="address"
-              value={store.listaContactos[params.index].address}
-              onChange={handleInputChange}
+              value={direccion}
+              onChange={(e) => setDireccion(e.target.value)}
             />
           </label>
           <br />
@@ -77,7 +76,16 @@ const EditContact = () => {
             className="btn btn-outline-warning"
             type="button"
             onClick={() => {
-              actions.editContact(newContact, params.index);
+              actions.editContact(
+                {
+                  full_name: nombre,
+                  email: correo,
+                  phone: telefono,
+                  agenda_slug: "agenda_de_antonio",
+                  address: direccion,
+                },
+                params.index
+              );
             }}
           >
             Guardar cambios
